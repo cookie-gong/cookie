@@ -2,7 +2,7 @@
 title: 代码整洁之道内容概要
 date: 2021-10-27 00:31:01
 author: cookie
-img: ../images/31.jpg
+img: ../images/02.jpg
 top: false
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/34.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片

@@ -2,7 +2,7 @@
 title: matery 主题介绍
 date: 2021-10-27 00:05:51
 author: cookie
-img: ../images/19.jpg
+img: ../images/08.jpg
 top: true
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/13.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片

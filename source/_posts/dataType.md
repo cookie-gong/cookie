@@ -2,7 +2,7 @@
 title: js 数据类型
 date: 2021-11-04 20:37:13
 author: cookie
-img: ../images/20.jpg
+img: ../images/04.jpg
 top: false
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/56.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片
