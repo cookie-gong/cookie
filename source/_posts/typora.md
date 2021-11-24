@@ -33,12 +33,12 @@ tags:
 
 **vue主题效果图1**
 
-![vue主题效果图1](01.png)
+![vue主题效果图1](https://image.gongweiwei.top/blog/cookie/typora/01.png)
 
 **vue主题效果图2**
 
-![vue主题效果图2](02.png)
+![vue主题效果图2](https://image.gongweiwei.top/blog/cookie/typora/02.png)
 
 **vue主题效果图3**
 
-![vue主题效果图3](03.png)
+![vue主题效果图3](https://image.gongweiwei.top/blog/cookie/typora/03.png)

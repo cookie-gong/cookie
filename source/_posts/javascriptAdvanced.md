@@ -107,7 +107,7 @@ JavaScript提供三种不同的值比较操作：
 
 简而言之，在比较两件事情时，双等号将执行类型转换; 三等号将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false ); 而`Object.is`的行为方式与三等号相同，但是对于NaN和-0和+0进行特殊处理，所以最后两个不相同，而`Object.is(NaN，NaN)`将为 true。
 
-![各原始类型值的相等比较对照表](equals.png)
+![各原始类型值的相等比较对照表](https://image.gongweiwei.top/blog/cookie/javascript/equals.png)
 
 **各原始类型值的相等比较对照表**
 
@@ -490,7 +490,7 @@ person.sayName(); // 使用稳妥构造函数模式只能通过其构造函数�
 
 JavaScript 的并发模型基于**事件循环**。
 
-![Js堆栈队列图](event.png)
+![Js堆栈队列图](https://image.gongweiwei.top/blog/cookie/javascript/event.png)
 
 **Js堆栈队列图**
 

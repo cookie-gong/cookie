@@ -39,7 +39,7 @@ tags:
 
 ### [](#1-工作空间 "(1).工作空间")(1).工作空间
 
-![Git工作空间](01.jpg)
+![Git工作空间](https://image.gongweiwei.top/blog/cookie/git/01.jpg)
 
 **Git工作空间**
 
@@ -350,7 +350,7 @@ git push origin --tags
 
 ### [](#1-Git-Flow流程图 "(1). Git Flow流程图")(1). Git Flow流程图
 
-![Git Flow流程图](02.png)
+![Git Flow流程图](https://image.gongweiwei.top/blog/cookie/git/02.png)
 
 **Git Flow流程图**
 
