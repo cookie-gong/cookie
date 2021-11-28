@@ -2,8 +2,8 @@
 title: 前端网站
 date: 2021-10-26 18:34:39
 author: cookie
-img: ../images/14.jpg
-top: true
+img: ../images/12.jpg
+top: false
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/15.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片
 toc: true

@@ -2,8 +2,8 @@
 title: js 数据类型
 date: 2021-11-04 20:37:13
 author: cookie
-img: ../images/04.jpg
-top: false
+img: ../images/03.jpg
+top: top
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/56.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片
 password: 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
@@ -145,10 +145,6 @@ JavaScript提供三种不同的值比较操作：
 *   以及`Object.is` (ECMAScript 2015/ ES6 新特性)
 
 简而言之，在比较两件事情时，双等号将执行类型转换; 三等号将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false ); 而`Object.is`的行为方式与三等号相同，但是对于NaN和-0和+0进行特殊处理，所以最后两个不相同，而`Object.is(NaN，NaN)`将为 true。
-
-![各原始类型值的相等比较对照表](equals.png)
-
-**各原始类型值的相等比较对照表**
 
 ## [](#作用域 "作用域")作用域
 
@@ -528,10 +524,6 @@ person.sayName(); // 使用稳妥构造函数模式只能通过其构造函数�
 ## [](#并发模型和事件循环-event-loop "并发模型和事件循环(event loop)")并发模型和事件循环(event loop)
 
 JavaScript 的并发模型基于**事件循环**。
-
-![Js堆栈队列图](event.png)
-
-**Js堆栈队列图**
 
 ### [](#1-运行时概念 "1. 运行时概念")1\. 运行时概念
 

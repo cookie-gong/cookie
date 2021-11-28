@@ -2,7 +2,7 @@
 title: vue-router 进阶
 date: 2021-11-16 21:36:32
 author: cookie
-img: ../images/13.jpg
+img: ../images/10.jpg
 top: false
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/34.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片

@@ -2,7 +2,7 @@
 title: js二维数组转化为一维数组
 date: 2021-11-24 00:03:37
 author: cookie
-img: ../images/10.jpg
+img: ../images/08.jpg
 top: false
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/56.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片
