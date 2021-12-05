@@ -3,7 +3,7 @@ title: javascript 数组方法归纳
 date: 2021-10-27 23:14:09
 author: cookie
 img: ../images/01.jpg
-top: true
+top: false
 cover: false # 表示该文章是否需要加入到首页轮播封面中
 coverImg: ../images/34.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片
 password: 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
