@@ -17,8 +17,6 @@ tags:
 
 # 浏览器 Location 对象，URL 对象，URLSearchParams 对象简析
 
-# Location 对象，URL 对象，URLSearchParams 对象
-
 URL 是互联网的基础设施之一。浏览器提供了一些原生对象，用来管理 URL。
 
 ## Location 对象

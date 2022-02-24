@@ -4,8 +4,8 @@
 
 # Site
 title: cookie
-subtitle: '前端知识总结'
-description: '前端知识总结'
+subtitle: 'HOLD ON'
+description: '天道酬勤、宁静致远'
 keywords:
 author: cookie
 language: zh-CN
@@ -145,7 +145,7 @@ feed:
 lazyload:
   enable: true 
   onlypost: false  # 是否只对文章的图片做懒加载
-  loadingImg: #./images/loading.gif
+  loadingImg: /medias/loading.gif
 
 toc:
   maxDepth: 12

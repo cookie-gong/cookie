@@ -2,10 +2,10 @@
 title: Vue 知识点简述
 date: 2021-11-30 20:05:51
 author: cookie
-img: ../images/17.jpg
+img: ../images/18.jpg
 top: true
 cover: false # 表示该文章是否需要加入到首页轮播封面中
-coverImg: ../images/16.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片
+coverImg: ../images/18.jpg # 表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片
 toc: true
 mathjax: false
 summary: Vue 知识点简述

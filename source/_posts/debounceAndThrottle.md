@@ -48,21 +48,25 @@ tags:
 **节流实例：**
 
 ```javascript
-var throttle = function (func, delay) {
+<script>
+    const throttle = (function () {
     var timer = null;
-    return function () {
-        var context = this;
-        var args = arguments;
+    return function (callback, dalay) {
         if (!timer) {
-            timer = setTimeout(function () {
-                func.apply(context, args);
+            timer = setTimeout(() => {
+                callback()
                 timer = null;
             }, delay);
         }
-    };
-};
-function handle() {
-    console.log(Math.random());
-}
-window.addEventListener("scroll", throttle(handle, 1000));
+    })();
+    export default {
+        methods：{
+            fn() {
+                throttle(() => {
+                    //执行部分
+                }, 500)
+            }
+        }
+    }
+</script>
 ```
