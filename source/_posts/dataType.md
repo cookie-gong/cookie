@@ -15,6 +15,7 @@ tags:
   - javascript
   - data-type
 ---
+
 ## 概览
 
 JavaScript 是一种面向对象的动态语言，它包含类型、运算符、标准内置（ built-in）对象和方法。它的语法来源于 Java 和 C，所以这两种语言的许多语法特性同样适用于 JavaScript。需要注意的一个主要区别是 JavaScript 不支持类，类这一概念在 JavaScript 通过对象原型（object prototype）得到延续。另一个主要区别是 JavaScript 中的函数也是对象，JavaScript 允许函数在包含可执行代码的同时，能像其他对象一样被传递。
@@ -28,70 +29,186 @@ JavaScript 是一种面向对象的动态语言，它包含类型、运算符、
 javascript
 
 ```javascript
-var foo = 42;    // foo is a Number now
+var foo = 42; // foo is a Number now
 var foo = "bar"; // foo is a String now
-var foo = true;  // foo is a Boolean now
+var foo = true; // foo is a Boolean now
 ```
 
 ### [](#2-数据类型 "2. 数据类型")2\. 数据类型
 
 最新的`ECMAScript`标准定义了 7 种数据类型:
 
-*   6 种原始类型
-    *   `Null` (空, 只有一个值`null`)
-    *   `Undefined` (未定义, 一个没有被赋值的变量的默认值是`undefined`):
-    *   `Boolean` (布尔, 可以有两个值：`true` 和 `false`)
-    *   `Number` (数字)
-    *   `String` (字符串)
-    *   `Symbol` (符号, ECMAScript 6 新定义的类型，表示独一无二的值)
-*   和 `Object` (对象)
-    *   `Function` (函数)
-    *   `Array` (数组)
-    *   `Date` (日期)
-    *   `JSON` (JS对象标识,来序列化对象、数组、数值、字符串、布尔值和 `null`)
-    *   `Math` (数学方面的计算)
-    *   `RegExp` (正则表达式)
-    *   `Error` (错误)
-    *   `Map`
-    *   `Set`
+- 6 种原始类型
+  - `Null` (空, 只有一个值`null`)
+  - `Undefined` (未定义, 一个没有被赋值的变量的默认值是`undefined`):
+  - `Boolean` (布尔, 可以有两个值：`true` 和 `false`)
+  - `Number` (数字)
+  - `String` (字符串)
+  - `Symbol` (符号, ECMAScript 6 新定义的类型，表示独一无二的值)
+- 和 `Object` (对象)
+  - `Function` (函数)
+  - `Array` (数组)
+  - `Date` (日期)
+  - `JSON` (JS 对象标识,来序列化对象、数组、数值、字符串、布尔值和 `null`)
+  - `Math` (数学方面的计算)
+  - `RegExp` (正则表达式)
+  - `Error` (错误)
+  - `Map`
+  - `Set`
 
 ## [](#判断数据类型 "判断数据类型")判断数据类型
 
 ### [](#1-typeof "1. typeof")1\. typeof
 
+typeof 是一个操作符，其右侧跟一个一元表达式，并返回这个表达式的数据类型。返回的结果用该类型的字符串(全小写字母)形式表示，包括以下 7 种：number、boolean、symbol、string、object、undefined、function 等。
+
+javascript
+
 ```javascript
-let a;                 typeof a    // undefined
-
-let b = 1;             typeof b    // number
-
-let c = "a";           typeof c    // string
-
-let d = true;          typeof d    // boolean
-
-let e = [1,2];         typeof e    // object
-
-let f = { a: "a" };    typeof f    // object
-
-let g = null;          typeof g    // object
-
-let h = undefined;     typeof h    // undefined
-
-let i =  () => {};     typeof i    // function
-
-let j = Symbol("i");   typeof j    // symbol
-
-let k = new Date();    typeof k    // objrct
+typeof ""; // string 有效
+typeof 1; // number 有效
+typeof Symbol(); // symbol 有效
+typeof true; // boolean 有效
+typeof undefined; // undefined 有效
+typeof null; // object 无效
+typeof []; // object 无效
+typeof new Function(); // function 有效
+typeof new Date(); // object 无效
+typeof new RegExp(); // object 无效
 ```
 
+有些时候，typeof 操作符会返回一些令人迷惑但技术上却正确的值：
 
+- 对于基本类型，除 null 以外，均可以返回正确的结果。
+- 对于引用类型，除 function 以外，一律返回 object 类型。
+- 对于 null ，返回 object 类型。
+- 对于 function 返回  function 类型。
+
+其中，null 有属于自己的数据类型 Null ， 引用类型中的 数组、日期、正则 也都有属于自己的具体类型，而 typeof 对于这些类型的处理，只返回了处于其原型链最顶端的 Object 类型，没有错，但不是我们想要的结果。
 
 ### [](#2-toString "2. toString")2\. toString
 
+`toString()` 是 `Object` 的原型方法，调用该方法，默认返回当前对象的 `[[Class]]` 。这是一个内部属性，其格式为 `[object Xxx]` ，其中 Xxx 就是对象的类型。
+
+对于 `Object` 对象，直接调用 `toString()`  就能返回 `[object Object]` 。而对于其他对象，则需要通过 `call` / `apply` 来调用才能返回正确的类型信息。
+
+javascript
+
+```javascript
+Object.prototype.toString.call(""); // [object String]
+Object.prototype.toString.call(1); // [object Number]
+Object.prototype.toString.call(true); // [object Boolean]
+Object.prototype.toString.call(Symbol()); // [object Symbol]
+Object.prototype.toString.call(undefined); // [object Undefined]
+Object.prototype.toString.call(null); // [object Null]
+Object.prototype.toString.call(new Function()); // [object Function]
+Object.prototype.toString.call(new Date()); // [object Date]
+Object.prototype.toString.call([]); // [object Array]
+Object.prototype.toString.call(new RegExp()); // [object RegExp]
+Object.prototype.toString.call(new Error()); // [object Error]
+Object.prototype.toString.call(document); // [object HTMLDocument]
+Object.prototype.toString.call(window); //[object global] window 是全局对象 global 的引用
+```
+
 ### [](#3-constructor "3. constructor")3\. constructor
+
+当一个函数 F 被定义时，JS 引擎会为 F 添加 `prototype` 原型，然后再在 `prototype` 上添加一个 `constructor` 属性，并让其指向 F 的引用。如下所示：
+
+![](https://image.gongweiwei.top/blog/cookie/javascript/console1.png)
+
+当执行 `var f = new F()` 时，F 被当成了构造函数，f 是 F 的实例对象，此时 F 原型上的 `constructor` 传递到了 f 上，因此 `f.constructor == F`
+
+![](https://image.gongweiwei.top/blog/cookie/javascript/console2.png)
+
+可以看出，F 利用原型对象上的 `constructor` 引用了自身，当 F 作为构造函数来创建对象时，原型上的 `constructor` 就被遗传到了新创建的对象上， 从原型链角度讲，构造函数 F 就是新对象的类型。这样做的意义是，让新对象在诞生以后，就具有可追溯的数据类型。
+
+同样，JavaScript 中的内置对象在内部构建时也是这样做的：
+
+![](https://image.gongweiwei.top/blog/cookie/javascript/console3.png)
+
+**细节问题：**
+
+> 1. `null` 和 `undefined` 是无效的对象，因此是不会有 `constructor` 存在的，这两种类型的数据需要通过其他方式来判断。
+> 2. 函数的 `constructor` 是不稳定的，这个主要体现在自定义对象上，当开发者重写 `prototype` 后，原有的 `constructor` `引用会丢失，constructor` 会默认为 `Object`
+
+![](https://image.gongweiwei.top/blog/cookie/javascript/console4.png)
+
+为什么变成了 `Object？`
+
+因为 `prototype` 被重新赋值的是一个 { }， { } 是 new `Object()` 的字面量，因此 `new Object()` 会将 `Object` 原型上的 `constructor` 传递给 { }，也就是 `Object` 本身。
+
+因此，为了规范开发，在重写对象原型时一般都需要重新给 `constructor` 赋值，以保证对象实例的类型不被篡改。
 
 ### [](#4-instanceof "4. instanceof")4\. instanceof
 
+`instanceof` 是用来判断 A 是否为 B 的实例，表达式为：`A instanceof B`，如果 A 是 B 的实例，则返回 true,否则返回 false。 在这里需要特别注意的是：**instanceof 检测的是原型**，我们用一段伪代码来模拟其内部执行过程：
 
+javascript
+
+```javascript
+instanceof (A,B) = {
+    var L = A.__proto__;
+    var R = B.prototype;
+    if(L === R) {
+        // A的内部属性 __proto__ 指向 B 的原型对象
+        return true;
+    }
+    return false;
+}
+```
+
+从上述过程可以看出，当 A 的 `__proto__` 指向 B 的 `prototype` 时，就认为 A 就是 B 的实例，我们再来看几个例子：
+
+javascript
+
+```javascript
+[] instanceof Array;               // true
+{} instanceof Object;              // true
+new Date() instanceof Date;        // true
+
+function Person(){};
+new Person() instanceof Person;
+
+[] instanceof Object;              // true
+new Date() instanceof Object;      // true
+new Person instanceof Object;      // true
+```
+
+我们发现，虽然 `instanceof` 能够判断出 \[ \] 是 `Array` 的实例，但它认为 \[ \] 也是 `Object` 的实例，为什么呢？
+
+我们来分析一下 \[ \]、Array、Object 三者之间的关系：
+
+从 `instanceof` 能够判断出 `[ ].__proto__`   指向 `Array.prototype`，而 `Array.prototype.__proto__` 又指向了 `Object.prototype`，最终 `Object.prototype.__proto__` 指向了 `null`，标志着原型链的结束。因此，`[]`、`Array`、`Object` 就在内部形成了一条原型链：
+
+![javascript 原型链](https://image.gongweiwei.top/blog/cookie/javascript/prototype.jpg)
+
+**javascript 原型链**
+
+从原型链可以看出，\[\] 的 `__proto__`  直接指向 `Array.prototype`，间接指向 `Object.prototype`，所以按照 `instanceof` 的判断规则，\[\] 就是 `Object` 的实例。依次类推，类似的 `new Date()`、`new Person()` 也会形成一条对应的原型链 。因此，**instanceof 只能用来判断两个对象是否属于实例关系， 而不能判断一个对象实例具体属于哪种类型。**
+
+`instanceof` 操作符的问题在于，它假定只有一个全局执行环境。如果网页中包含多个框架，那实际上就存在两个以上不同的全局执行环境，从而存在两个以上不同版本的构造函数。如果你从一个框架向另一个框架传入一个数组，那么传入的数组与在第二个框架中原生创建的数组分别具有各自不同的构造函数。
+
+javascript
+
+```javascript
+var iframe = document.createElement("iframe");
+document.body.appendChild(iframe);
+xArray = window.frames[0].Array;
+var arr = new xArray(1, 2, 3); // [1,2,3]
+arr instanceof Array; // false
+```
+
+针对数组的这个问题，ES5 提供了 `Array.isArray()`  方法 。该方法用以确认某个对象本身是否为 Array 类型，而不区分该对象在哪个环境中创建。
+
+javascript
+
+```javascript
+if (Array.isArray(value)) {
+  //对数组执行某些操作
+}
+```
+
+`Array.isArray()` 本质上检测的是对象的 `[[Class]]` 值，`[[Class]]` 是对象的一个内部属性，里面包含了对象的类型信息，其格式为 `[object Xxx]` ，Xxx 就是对应的具体类型 。对于数组而言，\[\[Class\]\] 的值就是 `[object Array]` 。
 
 ### [](#内置对象 "内置对象")内置对象
 
@@ -101,23 +218,23 @@ let k = new Date();    typeof k    // objrct
 
 ## [](#严格模式 "严格模式")严格模式
 
-除了正常运行模式，ECMAscript 5添加了第二种运行模式：”严格模式”（`strict mode`）。顾名思义，这种模式使得Javascript在更严格的条件下运行。
+除了正常运行模式，ECMAscript 5 添加了第二种运行模式：”严格模式”（`strict mode`）。顾名思义，这种模式使得 Javascript 在更严格的条件下运行。
 
-严格模式可以应用到整个script标签或个别函数中。设立”严格模式”的目的，主要有以下几个：
+严格模式可以应用到整个 script 标签或个别函数中。设立”严格模式”的目的，主要有以下几个：
 
-*   消除 Javascript 语法的一些不合理、不严谨之处，减少一些怪异行为;
-*   消除代码运行的一些不安全之处，保证代码运行的安全；
-*   提高编译器效率，增加运行速度；
-*   为未来新版本的 Javascript 做好铺垫。
+- 消除 Javascript 语法的一些不合理、不严谨之处，减少一些怪异行为;
+- 消除代码运行的一些不安全之处，保证代码运行的安全；
+- 提高编译器效率，增加运行速度；
+- 为未来新版本的 Javascript 做好铺垫。
 
-### [](#为某个script标签开启严格模式 "为某个script标签开启严格模式")为某个script标签开启严格模式
+### [](#为某个script标签开启严格模式 "为某个script标签开启严格模式")为某个 script 标签开启严格模式
 
 进入严格模式的标志，是下面这行语句：
 
 javascript
 
 ```javascript
-'use strict'
+"use strict";
 ```
 
 ### [](#为某个函数开启严格模式 "为某个函数开启严格模式")为某个函数开启严格模式
@@ -125,38 +242,38 @@ javascript
 javascript
 
 ```javascript
-function strict(){
+function strict() {
   // 函数级别严格模式语法
-  'use strict';
+  "use strict";
   return "I'm a strict mode function!  " + nested();
 }
 
 function notStrict() {
-    return "I'm not strict.";
+  return "I'm not strict.";
 }
 ```
 
 ## [](#相等性判断 "相等性判断")相等性判断
 
-JavaScript提供三种不同的值比较操作：
+JavaScript 提供三种不同的值比较操作：
 
-*   严格相等 (“triple equals” 或 “identity”)，使用`===`
-*   宽松相等 (“double equals”) ，使用`==`
-*   以及`Object.is` (ECMAScript 2015/ ES6 新特性)
+- 严格相等 (“triple equals” 或 “identity”)，使用`===`
+- 宽松相等 (“double equals”) ，使用`==`
+- 以及`Object.is` (ECMAScript 2015/ ES6 新特性)
 
-简而言之，在比较两件事情时，双等号将执行类型转换; 三等号将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false ); 而`Object.is`的行为方式与三等号相同，但是对于NaN和-0和+0进行特殊处理，所以最后两个不相同，而`Object.is(NaN，NaN)`将为 true。
+简而言之，在比较两件事情时，双等号将执行类型转换; 三等号将进行相同的比较，而不进行类型转换 (如果类型不同, 只是总会返回 false ); 而`Object.is`的行为方式与三等号相同，但是对于 NaN 和-0 和+0 进行特殊处理，所以最后两个不相同，而`Object.is(NaN，NaN)`将为 true。
 
 ## [](#作用域 "作用域")作用域
 
-作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期。在JavaScript中，变量的作用域有**全局作用域**和**局部作用域**两种。
+作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期。在 JavaScript 中，变量的作用域有**全局作用域**和**局部作用域**两种。
 
 ### [](#全局作用域 "全局作用域")全局作用域
 
 在代码中任何地方都能访问到的对象拥有全局作用域。一般来说以下几种情形：
 
-*   最外层函数和在最外层函数外面定义的变量拥有全局作用域。
-*   所有未定义而直接赋值的变量自动声明为拥有全局作用域。
-*   所有window对象的属性拥有全局作用域。如：`window.name`、`window.location`等。
+- 最外层函数和在最外层函数外面定义的变量拥有全局作用域。
+- 所有未定义而直接赋值的变量自动声明为拥有全局作用域。
+- 所有 window 对象的属性拥有全局作用域。如：`window.name`、`window.location`等。
 
 > **注**：全局变量存在于程序的整个生命周期。没有块级作用域。
 
@@ -166,7 +283,7 @@ JavaScript提供三种不同的值比较操作：
 
 ### [](#作用域链 "作用域链")作用域链
 
-JavaScript里一切都是对象。函数对象和其它对象一样，拥有可以通过代码访问的属性和一系列仅供JavaScript引擎访问的内部属性。其中一个内部属性是`Scope`，该内部属性包含了函数被创建的作用域中对象的集合，这个集合被称为函数的作用域链，它决定了哪些数据能被函数访问。
+JavaScript 里一切都是对象。函数对象和其它对象一样，拥有可以通过代码访问的属性和一系列仅供 JavaScript 引擎访问的内部属性。其中一个内部属性是`Scope`，该内部属性包含了函数被创建的作用域中对象的集合，这个集合被称为函数的作用域链，它决定了哪些数据能被函数访问。
 
 因为全局变量总是存在于**运行时上下文**作用域链的最末端。所以，在标识符解析的时候，查找全局变量是最慢的。所以，在编写代码的时候应尽量少使用全局变量，尽可能使用局部变量。一个好的经验法则是：**如果一个跨作用域的对象被引用了一次以上，则先把它存储到局部变量里再使用**。
 
@@ -175,16 +292,16 @@ JavaScript里一切都是对象。函数对象和其它对象一样，拥有可�
 javascript
 
 ```javascript
-person = {name: "yhb", age: 22, height:175, wife: {name: "lwy", age: 21}};
+person = { name: "yhb", age: 22, height: 175, wife: { name: "lwy", age: 21 } };
 with (person.wife) {
-    console.log(name);
+  console.log(name);
 }
 ```
 
-with语句将`person.wife`添加到当前作用域链的头部，所以输出的就是：`lwy`；with语句结束后，作用域链恢复正常。
+with 语句将`person.wife`添加到当前作用域链的头部，所以输出的就是：`lwy`；with 语句结束后，作用域链恢复正常。
 
-> 当代码运行到with语句时，运行期上下文的作用域链临时被改变了。一个新的可变对象被创建，它包含了参数指定的对象的所有属性。这个对象将被推入作用域链的头部，这意味着函数的所有局部变量现在处于第二个作用域链对象中，因此访问代价更高了。  
-> **注**：在程序中应避免使用with语句。
+> 当代码运行到 with 语句时，运行期上下文的作用域链临时被改变了。一个新的可变对象被创建，它包含了参数指定的对象的所有属性。这个对象将被推入作用域链的头部，这意味着函数的所有局部变量现在处于第二个作用域链对象中，因此访问代价更高了。  
+> **注**：在程序中应避免使用 with 语句。
 
 ## [](#闭包-Closures "闭包(Closures)")闭包(Closures)
 
@@ -196,28 +313,28 @@ javascript
 
 ```javascript
 function f1() {
-    var n=999;
-    function f2() {
-        alert(n); // 999
-    }
+  var n = 999;
+  function f2() {
+    alert(n); // 999
+  }
 }
 ```
 
-在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（`chain scope`），子对象会一级一级地向上寻找所有父对象的变量。所以，**父对象的所有变量，对子对象都是可见的，反之则不成立**。
+在上面的代码中，函数 f2 就被包括在函数 f1 内部，这时 f1 内部的所有局部变量，对 f2 都是可见的。但是反过来就不行，f2 内部的局部变量，对 f1 就是不可见的。这就是 Javascript 语言特有的”链式作用域”结构（`chain scope`），子对象会一级一级地向上寻找所有父对象的变量。所以，**父对象的所有变量，对子对象都是可见的，反之则不成立**。
 
-既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！
+既然 f2 可以读取 f1 中的局部变量，那么只要把 f2 作为返回值，我们不就可以在 f1 外部读取它的内部变量了吗！
 
 javascript
 
 ```javascript
 function f1() {
-    var n=999;
-    function f2() {
-        alert(n); // 999
-    }
-    return f2;
+  var n = 999;
+  function f2() {
+    alert(n); // 999
+  }
+  return f2;
 }
-var result=f1();
+var result = f1();
 result(); // 999
 ```
 
@@ -225,7 +342,7 @@ result(); // 999
 
 > **闭包定义**：闭包是一个函数和函数所声明的词法环境的结合。
 
-在上面的代码中，f2函数就是闭包。**闭包**（`closure`）定义非常抽象，很难看懂。我的理解是，**闭包就是能够读取其他函数内部变量的函数**。在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。
+在上面的代码中，f2 函数就是闭包。**闭包**（`closure`）定义非常抽象，很难看懂。我的理解是，**闭包就是能够读取其他函数内部变量的函数**。在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。
 
 闭包最大用处有两个，一个是可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中，不会在调用结束后被垃圾回收机制（`garbage collection`）回收。
 
@@ -248,24 +365,24 @@ JavaScript 并不提供原生的支持私有方法，但是可以使用闭包模
 javascript
 
 ```javascript
-var Counter = (function() {
-    var privateCounter = 0;
+var Counter = (function () {
+  var privateCounter = 0;
 
-    function changeBy(val) {
-        privateCounter += val;
-    }
+  function changeBy(val) {
+    privateCounter += val;
+  }
 
-    return {
-        increment: function() {
-            changeBy(1);
-        },
-        decrement: function() {
-            changeBy(-1);
-        },
-        value: function() {
-            return privateCounter;
-        }
-    }
+  return {
+    increment: function () {
+      changeBy(1);
+    },
+    decrement: function () {
+      changeBy(-1);
+    },
+    value: function () {
+      return privateCounter;
+    },
+  };
 })();
 
 console.log(Counter.value()); /* logs 0 */
@@ -280,15 +397,15 @@ console.log(Counter.value()); /* logs 1 */
 
 **注意**：
 
-*   由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。
-*   闭包会在父函数外部，改变父函数内部变量的值。所以，如果你把父函数当作对象（object）使用，把闭包当作它的公用方法（Public Method），把内部变量当作它的私有属性（private value），这时一定要小心，不要随便改变父函数内部变量的值。
+- 由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在 IE 中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。
+- 闭包会在父函数外部，改变父函数内部变量的值。所以，如果你把父函数当作对象（object）使用，把闭包当作它的公用方法（Public Method），把内部变量当作它的私有属性（private value），这时一定要小心，不要随便改变父函数内部变量的值。
 
 ## [](#内存机制 "内存机制")内存机制
 
-首先JavaScript中的变量分为**基本类型**和**引用类型**。
+首先 JavaScript 中的变量分为**基本类型**和**引用类型**。
 
-*   基本类型就是保存在栈内存中的简单数据段。基本类型有`Undefined`、`Null`、`Boolean`、`Number`和`String`。这些类型在内存中分别占有固定大小的空间，他们的值保存在**栈空间**，我们通过按值来访问的。
-*   引用类型指的是那些保存在堆内存中的对象。引用类型，值大小不固定，栈内存中存放地址指向堆内存中的对象。是按引用访问的。栈内存中存放的只是该对象的访问地址，在堆内存中为这个值分配空间。
+- 基本类型就是保存在栈内存中的简单数据段。基本类型有`Undefined`、`Null`、`Boolean`、`Number`和`String`。这些类型在内存中分别占有固定大小的空间，他们的值保存在**栈空间**，我们通过按值来访问的。
+- 引用类型指的是那些保存在堆内存中的对象。引用类型，值大小不固定，栈内存中存放地址指向堆内存中的对象。是按引用访问的。栈内存中存放的只是该对象的访问地址，在堆内存中为这个值分配空间。
 
 ### [](#为什么会有栈内存和堆内存之分？ "为什么会有栈内存和堆内存之分？")为什么会有栈内存和堆内存之分？
 
@@ -300,27 +417,27 @@ console.log(Counter.value()); /* logs 1 */
 
 ### [](#垃圾回收机制 "垃圾回收机制")垃圾回收机制
 
-Javascript具有自动垃圾回收机制(`GC`:`Garbage Collecation`)，也就是说，执行环境会负责管理代码执行过程中使用的内存。
+Javascript 具有自动垃圾回收机制(`GC`:`Garbage Collecation`)，也就是说，执行环境会负责管理代码执行过程中使用的内存。
 
-JavaScript垃圾回收的机制很简单：**找出不再使用的变量，然后释放掉其占用的内存，但是这个过程不是实时的，因为其开销比较大，所以垃圾回收器会按照固定的时间间隔周期性的执行**。
+JavaScript 垃圾回收的机制很简单：**找出不再使用的变量，然后释放掉其占用的内存，但是这个过程不是实时的，因为其开销比较大，所以垃圾回收器会按照固定的时间间隔周期性的执行**。
 
 不再使用的变量也就是生命周期结束的变量，当然只可能是局部变量，全局变量的生命周期直至浏览器卸载页面才会结束。局部变量只在函数的执行过程中存在，而在这个过程中会为局部变量在栈或堆上分配相应的空间，以存储它们的值，然后在函数中使用这些变量，直至函数结束，而闭包中由于内部函数的原因，外部函数并不能算是结束。
 
 #### [](#清除方式 "清除方式")清除方式
 
-*   **标记清除**：垃圾回收器在运行的时候会给存储在内存中的所有变量都加上标记。然后，它会去掉环境中的变量以及被环境中的变量引用的变量的标记（闭包）。而在此之后再被加上标记的变量将被视为准备删除的变量，原因是环境中的变量已经无法访问到这些变量了。最后，垃圾回收器完成内存清除工作，销毁那些带标记的值并回收它们所占用的内存空间。
-*   **引用计数**：引用计数的含义是跟踪记录每个值被引用的次数。当声明了一个变量并将一个引用类型值赋给该变量时，则这个值的引用次数就是1。如果同一个值又被赋给另一个变量，则该值的引用次数加1。相反，如果包含对这个值引用的变量又取得了另外一个值，则这个值的引用次数减1。当这个值的引用次数变成0时，则说明没有办法再访问这个值了，因而就可以将其占用的内存空间回收回来。这样，当垃圾回收器下次再运行时，它就会释放那些引用次数为0的值所占用的内存。
+- **标记清除**：垃圾回收器在运行的时候会给存储在内存中的所有变量都加上标记。然后，它会去掉环境中的变量以及被环境中的变量引用的变量的标记（闭包）。而在此之后再被加上标记的变量将被视为准备删除的变量，原因是环境中的变量已经无法访问到这些变量了。最后，垃圾回收器完成内存清除工作，销毁那些带标记的值并回收它们所占用的内存空间。
+- **引用计数**：引用计数的含义是跟踪记录每个值被引用的次数。当声明了一个变量并将一个引用类型值赋给该变量时，则这个值的引用次数就是 1。如果同一个值又被赋给另一个变量，则该值的引用次数加 1。相反，如果包含对这个值引用的变量又取得了另外一个值，则这个值的引用次数减 1。当这个值的引用次数变成 0 时，则说明没有办法再访问这个值了，因而就可以将其占用的内存空间回收回来。这样，当垃圾回收器下次再运行时，它就会释放那些引用次数为 0 的值所占用的内存。
 
 ## [](#原型-prototype "原型(prototype)")原型(prototype)
 
-原型是一个对象，其他对象可以通过它实现属性继承。JavaScript的对象中都包含了一个`Prototype`内部属性，这个属性所对应的就是该对象的原型。`Prototype`作为对象的内部属性，是不能被直接访问的。所以为了方便查看一个对象的原型，Firefox和Chrome中提供了`__proto__`这个非标准的访问器。
+原型是一个对象，其他对象可以通过它实现属性继承。JavaScript 的对象中都包含了一个`Prototype`内部属性，这个属性所对应的就是该对象的原型。`Prototype`作为对象的内部属性，是不能被直接访问的。所以为了方便查看一个对象的原型，Firefox 和 Chrome 中提供了`__proto__`这个非标准的访问器。
 
-*   所有的对象都有`__proto__`属性，该属性对应着该对象的原型。
-*   所有的函数对象都有`prototype`属性，该属性的值会被赋值给该函数创建的对象的`__proto__`属性
-*   所有的原型对象都有`constructor`属性，该属性对应创建所有指向该原型的实例的构造函数
-*   函数对象和原型对象通过`prototype`和`constructor`属性进行相互关联
-*   `Object`实例对象的原型`obj.__proto__`就是`Object.prototype`
-*   `hasOwnProperty`是`Object.prototype`的一个方法，该方法能判断一个对象是否包含自定义属性而不是原型链上的属性，因为”hasOwnProperty” 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数
+- 所有的对象都有`__proto__`属性，该属性对应着该对象的原型。
+- 所有的函数对象都有`prototype`属性，该属性的值会被赋值给该函数创建的对象的`__proto__`属性
+- 所有的原型对象都有`constructor`属性，该属性对应创建所有指向该原型的实例的构造函数
+- 函数对象和原型对象通过`prototype`和`constructor`属性进行相互关联
+- `Object`实例对象的原型`obj.__proto__`就是`Object.prototype`
+- `hasOwnProperty`是`Object.prototype`的一个方法，该方法能判断一个对象是否包含自定义属性而不是原型链上的属性，因为”hasOwnProperty” 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数
 
 ### [](#原型链 "原型链")原型链
 
@@ -330,13 +447,13 @@ JavaScript垃圾回收的机制很简单：**找出不再使用的变量，然�
 
 ## [](#对象创建方式 "对象创建方式")对象创建方式
 
-### [](#1-Object构造函数方式 "1. Object构造函数方式")1\. Object构造函数方式
+### [](#1-Object构造函数方式 "1. Object构造函数方式")1\. Object 构造函数方式
 
 javascript
 
 ```javascript
 var Person = new Object();
-Person.name = 'Nike';
+Person.name = "Nike";
 Person.age = 29;
 ```
 
@@ -355,7 +472,7 @@ var Person = {
 
 对象字面量是对象定义的一种简写形式，目的在于简化创建包含大量属性对象的过程。
 
-> **注**：前两种方法的缺点在于：它们都是用了同一个接口创建很多对象，会产生大量的重复代码，就是如果你有100个对象，那你要输入100次很多相同的代码。那我们有什么方法来避免过多的重复代码呢，就是把创建对象的过程封装在函数体内，通过函数的调用直接生成对象。
+> **注**：前两种方法的缺点在于：它们都是用了同一个接口创建很多对象，会产生大量的重复代码，就是如果你有 100 个对象，那你要输入 100 次很多相同的代码。那我们有什么方法来避免过多的重复代码呢，就是把创建对象的过程封装在函数体内，通过函数的调用直接生成对象。
 
 ### [](#3-工厂模式 "3. 工厂模式")3\. 工厂模式
 
@@ -363,17 +480,17 @@ javascript
 
 ```javascript
 function createPerson(name, age, job) {
-    var o = new Object();
-    o.name = name;
-    o.age = age;
-    o.job = job;
-    o.sayName = function() {
-        alert(this.name);
-    };
-    return o;
+  var o = new Object();
+  o.name = name;
+  o.age = age;
+  o.job = job;
+  o.sayName = function () {
+    alert(this.name);
+  };
+  return o;
 }
 
-var person1 = createPerson('Nike', 29, 'teacher');
+var person1 = createPerson("Nike", 29, "teacher");
 ```
 
 在使用工厂模式创建对象的时候，我们都可以注意到，在`createPerson`函数中，返回的是一个对象。但我们就无法判断返回的对象究竟是一个什么样的类型。于是就出现了第四种创建对象的模式。
@@ -384,24 +501,24 @@ javascript
 
 ```javascript
 function Person(name, age, job) {
-    this.name = name;
-    this.age = age;
-    this.job = job;
-    this.sayName = function() {
-        alert(this.name);
-    };
+  this.name = name;
+  this.age = age;
+  this.job = job;
+  this.sayName = function () {
+    alert(this.name);
+  };
 }
 
-var person1 = new Person('Nike', 29, 'teacher');
+var person1 = new Person("Nike", 29, "teacher");
 alert(person1 instanceof Object); //ture
 ```
 
 对比工厂模式，我们可以发现以下区别：
 
-*   没有显示地创建对象
-*   直接将属性和方法赋给了`this`对象
-*   没有`return`语句
-*   终于可以识别的对象的类型。对于检测对象类型，我们应该使用instanceof操作符，我们来进行自主检测：
+- 没有显示地创建对象
+- 直接将属性和方法赋给了`this`对象
+- 没有`return`语句
+- 终于可以识别的对象的类型。对于检测对象类型，我们应该使用 instanceof 操作符，我们来进行自主检测：
 
 那么构造函数确实挺好用的，但是它也有它的缺点：就是每个方法都要在每个实例上重新创建一遍，方法指的就是我们在对象里面定义的函数。如果方法的数量很多，就会占用很多不必要的内存。于是出现了第五种创建对象的方法。
 
@@ -410,17 +527,17 @@ alert(person1 instanceof Object); //ture
 javascript
 
 ```javascript
-function Person(){}
-Person.prototype.name = 'Nike';
+function Person() {}
+Person.prototype.name = "Nike";
 Person.prototype.age = 20;
-Person.prototype.jbo = 'teacher';
-Person.prototype.sayName = function() {
-    alert(this.name);
+Person.prototype.jbo = "teacher";
+Person.prototype.sayName = function () {
+  alert(this.name);
 };
 
 var person1 = new Person();
 var person2 = new Person();
-person1.name = 'Greg';
+person1.name = "Greg";
 alert(person1.name); //'Greg' --来自实例
 alert(person2.name); //'Nike' --来自原型
 ```
@@ -454,18 +571,18 @@ javascript
 
 ```javascript
 function Person(name, age, job) {
-    this.name = name;
-    this.age = age;
-    this.job = job;
+  this.name = name;
+  this.age = age;
+  this.job = job;
 
-    if (typeof this.sayName != 'function') {
-        Person.prototype.sayName = function() {
-            alert(this.name);
-        }
-    }
+  if (typeof this.sayName != "function") {
+    Person.prototype.sayName = function () {
+      alert(this.name);
+    };
+  }
 }
 
-var person1 = new Person('Nike', 20, 'teacher');
+var person1 = new Person("Nike", 20, "teacher");
 person1.sayName();
 ```
 
@@ -477,25 +594,25 @@ javascript
 
 ```javascript
 function Person(name, age, job) {
-    var o = new Object();
-    o.name = name;
-    o.age = age;
-    o.job = job;
-    o.sayName = function() {
-        alert(this.name);
-    };
-    return o;
+  var o = new Object();
+  o.name = name;
+  o.age = age;
+  o.job = job;
+  o.sayName = function () {
+    alert(this.name);
+  };
+  return o;
 }
 
-var person1 = new Person('Nike', 29, 'teacher');
+var person1 = new Person("Nike", 29, "teacher");
 ```
 
 寄生模式和工厂模式几乎一样，寄生模式和工厂模式的区别：
 
-*   寄生模式创建对象时使用了`new`关键字
-*   寄生模式的外部包装函数是一个构造函数
+- 寄生模式创建对象时使用了`new`关键字
+- 寄生模式的外部包装函数是一个构造函数
 
-> **作用**:寄生模式可以在特殊的情况下为对象来创建构造函数,原因在于我们可以通过构造函数重写对象的值，并通过return返回。重写调用构造函数(创建的对象的实例)之后的对象实例的新的值。
+> **作用**:寄生模式可以在特殊的情况下为对象来创建构造函数,原因在于我们可以通过构造函数重写对象的值，并通过 return 返回。重写调用构造函数(创建的对象的实例)之后的对象实例的新的值。
 
 ### [](#9-稳妥构造函数方式 "9. 稳妥构造函数方式")9\. 稳妥构造函数方式
 
@@ -503,23 +620,23 @@ javascript
 
 ```javascript
 function Person(name, age, job) {
-    var o = new Object();
-    o.sayName = function() {
-        alert(this.name);
-    };
-    return o;
+  var o = new Object();
+  o.sayName = function () {
+    alert(this.name);
+  };
+  return o;
 }
 
-var person = new Person('Nike', 29, 'teacher');
+var person = new Person("Nike", 29, "teacher");
 person.sayName(); // 使用稳妥构造函数模式只能通过其构造函数内部的方法来获取里面的属性值
 ```
 
-道格拉斯·克拉克福德发明了JavaScript中的稳妥对象这个概念。所谓稳妥对象，是指没有公共属性，而且其方法也不引用`this`对象。稳妥对象最适合在一些安全环境中（这些环境会禁止使用`this`和`new`），或者在防止数据被其他应用程序改动时使用。稳妥构造函数遵循的与寄生构造函数类似的模式，但又两点不同：
+道格拉斯·克拉克福德发明了 JavaScript 中的稳妥对象这个概念。所谓稳妥对象，是指没有公共属性，而且其方法也不引用`this`对象。稳妥对象最适合在一些安全环境中（这些环境会禁止使用`this`和`new`），或者在防止数据被其他应用程序改动时使用。稳妥构造函数遵循的与寄生构造函数类似的模式，但又两点不同：
 
-*   一是新创建对象的实例方法不引用`this`；
-*   二是不使用`new`操作符调用构造函数。
+- 一是新创建对象的实例方法不引用`this`；
+- 二是不使用`new`操作符调用构造函数。
 
-> **注**：与寄生构造函数模式类似，使用稳妥构造函数模式创建的对象与构造函数之间没有什么关系，因此instanceof操作符对这种对象也没有意义。
+> **注**：与寄生构造函数模式类似，使用稳妥构造函数模式创建的对象与构造函数之间没有什么关系，因此 instanceof 操作符对这种对象也没有意义。
 
 ## [](#并发模型和事件循环-event-loop "并发模型和事件循环(event loop)")并发模型和事件循环(event loop)
 
